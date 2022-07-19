@@ -26,7 +26,7 @@ with col2:
     st.markdown(" <h1 style='text-align: center;'>Market Basket Analysis on Online Retail Data:</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'><i><b>Providing a Retail Business with a strategy which helps improve their "
                 "product sales, inventory management, and customer retention, intern improving the profitability of the business.</b></i></p>", unsafe_allow_html=True)
-    st.markdown(" <center><img src='Assets/MBA.jpeg' width=600/></center>", unsafe_allow_html=True)
+    st.markdown("<center><img src='https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/MBA.jpg?raw=1' width=600/></center>", unsafe_allow_html=True)
     
 
     
