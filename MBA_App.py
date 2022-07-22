@@ -62,3 +62,19 @@ def load_data():
 
     
 df = load_data()
+st.markdown("### **Project Introduction**")
+st.markdown("***Business Proposition:*** This project aims to provide a Retail "
+            "Business with a strategy that helps improve their product sales, "
+            "inventory management, and customer retention, which in turn would "
+            "improve the profitability of the business. In the retail environment, "
+            "profitability and the `bottom line` is at the focal point of any "
+            "organization or business in this space. From product sales, through "
+            "inventory management to customer acquisition and retention all this one "
+            "way or the other affects the business' profits and net revenue. Transaction "
+            "data from the POS (point of sale) systems for a retail business is a treasure "
+            "trove of insights that can be used to better understand the products, customer "
+            "purchase behavior, and sales together with the relationship and patterns in "
+            "between. This project explores the different ways of deriving these insights, "
+            "patterns, and relationships, and how these can be used in designing, developing, "
+            "and implementing a strategy to improve the retail business' profits, revenue, "
+            "and overall operations")
