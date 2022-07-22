@@ -6,7 +6,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
-import config#lets import our data from the AWS RDS MySQL DataBase
+#lets import our data from the AWS RDS MySQL DataBase
 #db info
 from sqlalchemy import create_engine
 
