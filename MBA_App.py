@@ -17,24 +17,6 @@ password = st.secrets["password"]
 port = st.secrets["port"]
 database = st.secrets["database"]
 
-
-@st.cache(allow_output_mutation=True, ttl= 120.0)
-def load_data():
-    #df = pd.read_csv('Cultural_Health Moments_Data.csv')
-
-    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
-
-    try:
-        query = f"SELECT * FROM MBA_Online-Retail_Data"
-        data = pd.read_sql(query,engine)
-
-    except Exception as e:
-        print(str(e))
-
-    return data
-
-
-
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
@@ -65,4 +47,19 @@ with col3:
 st.markdown("### ***Project Contributors:***")
 st.markdown("Kuzi Rusere")
 
+@st.cache(allow_output_mutation=True, ttl= 120.0)
+def load_data():
+    #df = pd.read_csv('Cultural_Health Moments_Data.csv')
+
+    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
+
+    try:
+        query = f"SELECT * FROM MBA_Online-Retail_Data"
+        data = pd.read_sql(query,engine)
+
+    except Exception as e:
+        print(str(e))
+
+    return data
+    
 df = load_data()
