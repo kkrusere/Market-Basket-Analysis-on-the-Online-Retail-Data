@@ -6,16 +6,10 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
-import config
-#lets import our data from the AWS RDS MySQL DataBase
+import config#lets import our data from the AWS RDS MySQL DataBase
 #db info
 from sqlalchemy import create_engine
 
-# host = config.host
-# user = config.user
-# password = config.password
-# password = config.password
-# database = config.database
 
 host = st.secrets["host"]
 user = st.secrets["user"]
