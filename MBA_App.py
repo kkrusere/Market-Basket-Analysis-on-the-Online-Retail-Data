@@ -26,12 +26,12 @@ def load_data():
 
     try:
         query = f"SELECT * FROM MBA_Online-Retail_Data"
-        df = pd.read_sql(query,engine)
+        data = pd.read_sql(query,engine)
 
     except Exception as e:
         print(str(e))
 
-    return df
+    return data
 
 
 
