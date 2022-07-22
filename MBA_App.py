@@ -6,6 +6,41 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
+import config
+#lets import our data from the AWS RDS MySQL DataBase
+#db info
+from sqlalchemy import create_engine
+
+# host = config.host
+# user = config.user
+# password = config.password
+# password = config.password
+# database = config.database
+
+host = st.secrets["host"]
+user = st.secrets["user"]
+password = st.secrets["password"]
+port = st.secrets["port"]
+database = st.secrets["database"]
+
+
+@st.cache(allow_output_mutation=True, ttl= 120.0)
+def load_data():
+    #df = pd.read_csv('Cultural_Health Moments_Data.csv')
+
+    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
+
+    try:
+        query = f"SELECT * FROM MBA_Online-Retail_Data"
+        df = pd.read_sql(query,engine)
+
+    except Exception as e:
+        print(str(e))
+
+    return df
+
+
+
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
@@ -36,3 +71,4 @@ with col3:
 st.markdown("### ***Project Contributors:***")
 st.markdown("Kuzi Rusere")
 
+df = load_data()

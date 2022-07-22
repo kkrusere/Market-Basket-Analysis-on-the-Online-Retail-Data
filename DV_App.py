@@ -7,8 +7,8 @@ import seaborn as sns
 import matplotlib
 from matplotlib.figure import Figure
 from PIL import Image
-import gender_guesser.detector as gender
-from streamlit_lottie import st_lottie
+
+
 import requests
 import random
 from contextlib import contextmanager, redirect_stdout
@@ -18,7 +18,7 @@ import streamlit as st
 
 import pandas as pd
 import numpy as np
-import chart_studio.plotly as py
+
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
@@ -29,9 +29,8 @@ import datetime as dt
 from wordcloud import WordCloud
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
-import mlxtend as ml
-from IPython import display
-from IPython.core.display import display, HTML
+
+
 from datetime import datetime
 
 from sklearn.preprocessing import StandardScaler
@@ -78,7 +77,8 @@ with col1:
     st.write("")
 
 with col2:
-    st.image("DS-620-Data_Visualization/DVProject.png", caption="Project Section Allocation", width= 700)
+    st.write("")
+    #st.image("DS-620-Data_Visualization/DVProject.png", caption="Project Section Allocation", width= 700)
 
 with col3:
     st.write("")
