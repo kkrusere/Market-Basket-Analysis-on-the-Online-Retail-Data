@@ -47,7 +47,7 @@ with col3:
 st.markdown("### ***Project Contributors:***")
 st.markdown("Kuzi Rusere")
 
-@st.cache(allow_output_mutation=True)
+
 def load_data():
     #df = pd.read_csv('Cultural_Health Moments_Data.csv')
 
