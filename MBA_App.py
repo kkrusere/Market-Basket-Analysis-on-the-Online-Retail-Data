@@ -47,9 +47,9 @@ with col3:
 st.markdown("### ***Project Contributors:***")
 st.markdown("Kuzi Rusere")
 
-
+@st.cache(allow_output_mutation=True, ttl= 120.0)
 def load_data():
-    #df = pd.read_csv('Cultural_Health Moments_Data.csv')
+
 
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
 
@@ -57,9 +57,9 @@ def load_data():
         query = f"SELECT * FROM MBA_Online-Retail_Data"
         data = pd.read_sql(query,engine)
 
+        return data
+
     except Exception as e:
         print(str(e))
-
-    return data
-
+    
 df = load_data()
