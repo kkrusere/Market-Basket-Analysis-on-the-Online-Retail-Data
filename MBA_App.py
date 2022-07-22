@@ -58,6 +58,7 @@ def load_data():
         return data
 
     except Exception as e:
-        st.write(str(e))
+        pass
+
     
 df = load_data()
