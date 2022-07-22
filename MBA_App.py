@@ -49,8 +49,6 @@ st.markdown("Kuzi Rusere")
 
 @st.cache(allow_output_mutation=True, ttl= 120.0)
 def load_data():
-
-
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
 
     try:
@@ -60,6 +58,6 @@ def load_data():
         return data
 
     except Exception as e:
-        print(str(e))
+        st.write(str(e))
     
 df = load_data()
