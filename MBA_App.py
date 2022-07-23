@@ -110,7 +110,8 @@ with col2:
     The data source:
     
     """
-    st.image("", caption="https://archive.ics.uci.edu/ml/datasets/online+retail")
+
+    st.markdown("<center><img src='https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/UCI_ML_REPO.png' /></center>", unsafe_allow_html=True)
 
 
 
