@@ -107,11 +107,12 @@ with col2:
     * ***CustomerID:*** Customer number. Nominal, a 5-digit integral number uniquely assigned to each customer.
     * ***Country:*** Country name. Nominal, the name of the country where each customer resides.
 
-    The data source:
+    ###### **The data source:**
     
     """
 
-    st.markdown("<center><img src='https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/UCI_ML_REPO.png' /></center>", unsafe_allow_html=True)
+    st.image("Assets/UCI_ML_REPO.png", caption="https://archive.ics.uci.edu/ml/datasets/online+retail")
+
 
 
 
