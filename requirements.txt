@@ -9,3 +9,4 @@ pymysql
 greenlet
 mlxtend==0.20.0
 seaborn
+Pillow==9.2.0
