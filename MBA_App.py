@@ -86,10 +86,9 @@ st.markdown("1. Market Basket Analysis (MBA), which aims to find relationship an
             "3. Product Recomendation (people who bought this also bought)<br>")
 
 
-st.markdown("""
-                <ul>
-                <li>Coffee</li>
-                <li>Tea</li>
-                <li>Milk</li>
-                </ul>
-            """)
+st.markdown("<ul>"
+                "<li>Coffee</li>"
+                "<li>Tea</li>"
+                "<li>Milk</li>"
+            "</ul>"
+            )
