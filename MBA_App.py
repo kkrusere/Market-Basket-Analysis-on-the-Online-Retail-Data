@@ -181,3 +181,81 @@ with col2:
     """
 with col3:
     pass
+
+@st.cache(allow_output_mutation=True)
+def group_Quantity_and_SalesRevenue(df,string):
+    """ 
+    This function inputs the main data frame and feature name 
+    The feature name is the column name that you want to group the Quantity and Sales Revenue
+    """
+
+    df = df[[f'{string}','Quantity','Sales Revenue']].groupby([f'{string}']).sum().sort_values(by= 'Sales Revenue', ascending = False).reset_index()
+
+    return df
+
+@st.cache(allow_output_mutation=True)
+def wordcloud_of_Description(df, title):
+    """
+    This fuction creates a word cloud
+    inputs a data frame converts it to tuples and uses the input 'title' as the title of the word cloud
+    """
+    plt.rcParams["figure.figsize"] = (20,20)
+    tuples = [tuple(x) for x in df.values]
+    wordcloud = WordCloud().generate_from_frequencies(dict(tuples))
+    plt.imshow(wordcloud)
+    plt.axis('off')
+    plt.title(title)
+    plt.show()
+
+
+st.markdown("----")
+st.markdown(" <h3 style='text-align: center;'>Market Basket Analysis <i>MBA</i>:</h3>", unsafe_allow_html=True)
+r"""
+**What is Market Basket Analysis?:**
+
+Market Basket Analysis (MBA) is a data mining technique that is mostly used in the Retail Industry to uncover customer purchasing patterns and product relationships. The techniques used in MBA identify the patterns, associations, and relationships (revealing product groupings and which products are likely to be purchased together) in in frequently purchased items by customers in large transaction datasets collected/registered at the point of sale. The results of the Market Basket Analysis can be used by retailers or marketers to design and develop marketing and operation strategies for a retail business or organization.<br>
+Market basket analysis mainly utilize Association Rules {IF} -> {THEN}. However, MBA assigns Business outcomes and scenarios to the rules, for example,{IF X is bought} -> {THEN Y is also bought}, so X,Y could be sold together. <br>
+
+Definition: **Association Rule**
+
+Let $I$= \{$i_{1},i_{2},\ldots ,i_{n}$\} be an itemset.
+
+Let $D$= \{$t_{1},t_{2},\ldots ,t_{m}$\} be a database of transactions $t$. Where each transaction $t$ is a nonempty itemset such that ${t \subseteq I}$
+
+Each transaction in D has a unique transaction ID and contains a subset of the items in I.
+
+A rule is defined as an implication of the form:
+$X\Rightarrow Y$, where ${X,Y\subseteq I}$.
+
+The rule ${X \Rightarrow Y}$ holds in the dataset of transactions $D$ with support $s$, where $s$ is the percentage of transactions in $D$ that contain ${X \cup Y}$ (that is the union of set $X$ and set $Y$, or, both $X$ and $Y$). This is taken as the probability, ${P(X \cup Y)}$. Rule ${X \Rightarrow Y}$ has confidence $c$ in the transaction set $D$, where $c$ is the percentage of transactions in $D$ containing $X$ that also contains $Y$. This is taken to be the conditional probability, like ${P(Y | X)}$. That is,
+
+* support ${(X \Rightarrow Y)}$ = ${P(X \cup Y)}$
+
+* confidence ${(X \Rightarrow Y)}$ = ${P(X|Y)}$
+
+The lift of the rule ${(X \Rightarrow Y)}$  is the confidence of the rule divided by the expected confidence, assuming that the itemsets $X$ and $Y$ are independent of each other.The expected confidence is the confidence divided by the frequency of ${Y}$.
+
+* lift ${(X \Rightarrow Y)}$ = ${ \frac {\mathrm {supp} (X\cap Y)}{\mathrm {supp} (X)\times \mathrm {supp} (Y)}}$
+
+
+Lift value near 1 indicates ${X}$ and ${Y}$ almost often appear together as expected, greater than 1 means they appear together more than expected and less than 1 means they appear less than expected.Greater lift values indicate stronger association
+
+"""
+
+st.markdown("----")
+st.markdown(" <h3 style='text-align: center;'>Customer Segmentation:</h3>", unsafe_allow_html=True)
+"""
+* RFM (recency, frequency, monetary) Analysis
+"""
+
+st.markdown("----")
+st.markdown(" <h3 style='text-align: center;'>Product recomendation <i>(people who bought this also bought)</i>:</h3>", unsafe_allow_html=True)
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """
+    The product recommendation part of this project is going to make use of the Association Rules that where uncovered in the MBA section. Product recomentation is basically one of the advantages of Market Basket Analysis where you can recommend to customers products that are in the same itemsets as the customer's current products.
+    """
+with col3:
+    pass
