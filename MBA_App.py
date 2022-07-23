@@ -745,7 +745,7 @@ st.dataframe(basket.head())
 
 st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
 
-frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
+#frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
 
 col1, col2, col3= st.columns((.1,1,.1))
 with col1:
