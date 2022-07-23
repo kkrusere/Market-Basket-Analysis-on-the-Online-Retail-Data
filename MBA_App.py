@@ -49,13 +49,15 @@ with col2:
     st.markdown("<p style='text-align: center;'><i><b>Providing a Retail Business with a strategy which helps improve their "
                 "product sales, inventory management, and customer retention, which in turn would improve the profitability of the business.</b></i></p>", unsafe_allow_html=True)
     st.markdown("<center><img src='https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/MBA.jpg?raw=1' width=600/></center>", unsafe_allow_html=True)
-    
 
 
 with col3:
     st.write("")
 
-col1, col2, = st.columns((1,1))
+
+st.markdown("----")
+
+col1, col2,col3 = st.columns((1,0.1,1))
 
 with col1:
    
@@ -88,9 +90,10 @@ with col1:
     """
     st.markdown("In addition, we created this `Streamlit` interactive data visualization "
                 "tool that allows users interact with the data and analytics.")
-
 with col2:
-    st.markdown("### ***Data Collection***")
+    pass
+with col3:
+    st.markdown("### ***Data Collection:***")
 
     """
     **General Information About the Data**
@@ -114,10 +117,13 @@ with col2:
     st.image("Assets/UCI_ML_REPO.png", caption="https://archive.ics.uci.edu/ml/datasets/online+retail")
 
 
-
+st.markdown("----")
 
 @st.cache(allow_output_mutation=True, ttl= 120.0)
 def load_data():
+    """
+    This fuction loads data from the aws rds mysql table
+    """
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
 
     try:
@@ -129,5 +135,24 @@ def load_data():
     except Exception as e:
         pass
 
+#loading the data
+df = load_data() 
 
-df = load_data()
+st.markdown("*lets take a look at the data:*")
+"""
+We are going to use the pandas `.shape` function/method to the total number of columns and rows of the dataframe. We can see that our dataframe contains 541909 rows and 8 columns
+
+We'll use the pandas `.info()` function so see the general infomation (data types, null value count, etc.) about the data.
+"""
+col1, col2,col3 = st.columns((1, 0.5,.1))
+
+with col1:
+    st.markdown("***The below is the first 5 rows of the cleaed dataset***")
+    st.dataframe(df.head())
+with col2:
+    st.markdown("***The below is the shape of the data***")
+    st.dataframe(df.shape)
+
+with col3:
+    st.markdown("***The below is the info of the data***")
+    st.dataframe(df.info())
