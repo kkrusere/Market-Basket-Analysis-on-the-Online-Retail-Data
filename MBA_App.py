@@ -88,6 +88,6 @@ st.markdown("***Methodology:*** Data Mining, Analysis and Visualization of Retai
 """
 
 """
-In addition,
+In addition,<br>
 We create a `Streamlit` interactive data visualization tool that allows users interact with the data and analytics.
 """
