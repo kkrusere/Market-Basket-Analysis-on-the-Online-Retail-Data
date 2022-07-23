@@ -1,0 +1,17 @@
+ #,Column,Non-Null,Count,Dtype         
+ 0,InvoiceNo,481313,non-null,object        
+ 1,StockCode,481313,non-null,object        
+ 2,Description,481313,non-null,object        
+ 3,Quantity,481313,non-null,int64         
+ 4,InvoiceDate,481313,non-null,datetime64[ns]
+ 5,UnitPrice,481313,non-null,float64       
+ 6,CustomerID,481313,non-null,object        
+ 7,Country,481313,non-null,object        
+ 8,Date,481313,non-null,object        
+ 9,Month,481313,non-null,object        
+ 10,Week of the Year,481313,non-null,UInt32        
+ 11,Day of Week,481313,non-null,object        
+ 12,Time,481313,non-null,object        
+ 13,Hour,481313,non-null,int64         
+ 14,Time of Day,481313,non-null,category      
+ 15,Sales Revenue,481313,non-null,float64       

@@ -28,6 +28,7 @@ password = st.secrets["password"]
 port = st.secrets["port"]
 database = st.secrets["database"]
 
+
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
@@ -119,40 +120,64 @@ with col3:
 
 st.markdown("----")
 
-@st.cache(allow_output_mutation=True, ttl= 120.0)
+@st.cache(allow_output_mutation=True, ttl= 600)
 def load_data():
     """
     This fuction loads data from the aws rds mysql table
     """
+    data = None
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}")
 
     try:
-        query = f"SELECT * FROM MBA_Online-Retail_Data"
+        query = f"SELECT * FROM MBA_Online_Retail_Data"
         data = pd.read_sql(query,engine)
 
-        return data
-
     except Exception as e:
-        pass
-
+        print(str(e))
+    
+    return data
 #loading the data
 df = load_data() 
 
-st.markdown("***lets take a look at the data:***")
+
+
+st.markdown("#### ***Lets take a look at the data:***")
 """
-We are going to use the pandas `.shape` function/method to the total number of columns and rows of the dataframe. We can see that our dataframe contains 541909 rows and 8 columns
+We are going to use the pandas `.shape` function/method to the total number of columns and rows of the dataframe. We can see that our dataframe contains 481313 rows and 16 columns
 
 We'll use the pandas `.info()` function so see the general infomation (data types, null value count, etc.) about the data.
 """
-col1, col2,col3 = st.columns((1, 0.5,.1))
+st.markdown(f"###### ***The shape of the data***: {df.shape}")
 
+
+col1, col2,col3 = st.columns((1, 0.01,.5))
+
+df_head = pd.read_csv("df_head.csv")
 with col1:
     st.markdown("***The below is the first 5 rows of the cleaed dataset***")
-    st.dataframe(df.head())
+    st.dataframe(df_head)
 with col2:
-    st.markdown("***The below is the shape of the data***")
-    st.dataframe(df.shape)
-
+    pass
+df_info = pd.read_csv("df_info.csv", index_col=0)
 with col3:
     st.markdown("***The below is the info of the data***")
-    st.dataframe(df.info())
+    st.dataframe(df_info)
+
+st.success("If you want to take a look at how the data was cleaned, you "
+            "can go check out the jupyter notebook of this project at: "
+            "https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/MBA_Online-Retail_Data.ipynb")
+st.markdown("---")
+
+
+
+st.markdown(" <h3 style='text-align: center;'>Exploratory Data Analysis <i>(EDA)</i>:</h3>", unsafe_allow_html=True)
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """
+    * Exploratory data analysis is an approach/practice of analyzing data sets to summarize their main characteristics, often using statistical graphics and other ***data visualization***. It is a critical process of performing initial ***investigations to discover*** patterns, detect outliers and anomalies, and gain some new, hidden, insights into the data.
+    * Investigating questions like the total volume of purchases per month, week, day of the week, time of the day right to the hour. We will look at customers more later when we get into the ***Recency, Frequency and Monetary Analysis (RFM)*** in the Customer Segmentation section of the project.
+    """
+with col3:
+    pass
