@@ -138,7 +138,7 @@ def load_data():
 #loading the data
 df = load_data() 
 
-st.markdown("*lets take a look at the data:*")
+st.markdown("***lets take a look at the data:***")
 """
 We are going to use the pandas `.shape` function/method to the total number of columns and rows of the dataframe. We can see that our dataframe contains 541909 rows and 8 columns
 
