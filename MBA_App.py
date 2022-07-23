@@ -80,4 +80,5 @@ st.markdown("***Business Proposition:*** This project aims to provide a Retail "
             "and overall operations")
 st.markdown("***Methodology:*** Data Mining, Analysis and Visualization of Retail "
             "Sales Data.")
-st.markdown("1. Market Basket Analysis (MBA), which aims to find relationship and establishing pattens within the retail sales data.")
+st.markdown("1. Market Basket Analysis (MBA), which aims to find relationship and establishing pattens within the retail sales data."
+            "2.")
