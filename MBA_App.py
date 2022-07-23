@@ -84,6 +84,5 @@ st.markdown("***Methodology:*** Data Mining, Analysis and Visualization of Retai
 1. Market Basket Analysis (MBA), which aims to find relationship and establishing pattens within the retail sales data. <br>
 2. Customer Segmentation 
 > * RFM (recency, frequency, monetary) Analysis
-> * Cohort analysis
 3. Product Recomendation (people who bought this also bought)
 """
