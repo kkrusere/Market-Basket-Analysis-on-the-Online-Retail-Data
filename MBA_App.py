@@ -419,7 +419,7 @@ ccol1, col2, col3= st.columns((.5,1,.5))
 with col1:
     pass
 with col2:
-    #choice = st.radio("", ("Top 10", "Bottom 10"))
+    
     temp_df = group_Quantity_and_SalesRevenue(df,'Week of the Year')
     fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
                     subplot_titles=("Quantity", "Sales Revenue")
@@ -441,13 +441,196 @@ with col2:
 with col3:
     pass
 
+##############################
+st.markdown("##### **Daily Stats:**")
+"""
+The below are the daily analysis of the Sales and the Quantity of iterms sold
+"""
+col1, col2, col3= st.columns((1,.3,1))
+with col1:
+    temp_df = group_Quantity_and_SalesRevenue(df,'Day of Week')
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
+                    subplot_titles=("Quantity", "Sales Revenue")
+                            )
+
+    fig.add_trace(go.Bar(x=temp_df['Day of Week'], y=temp_df['Quantity'],name = 'Quantity'),1, 1)
+
+    fig.add_trace(go.Bar(x=temp_df['Day of Week'], y=temp_df['Sales Revenue'],name = 'Sales Revenue'),1, 2)
+
+    fig.update_layout(coloraxis=dict(colorscale='Greys'), showlegend=False, title_text="Day of the Week Sales Revanue and Quantity")
+    #fig.show(renderer='png', height=700, width=1200)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+
+    st.markdown("The above graphs depict the daily trend of Sales revenue and quantity. Thursday was observed to generate the highest Quantity of products and Sales Revenue.")
+
+with col2:
+    pass
+
+with col3:
+    fig = make_subplots(rows=1, cols=2,
+                        specs=[[{"type": "pie"}, {"type": "pie"}]], 
+                        subplot_titles=("Quantity", "Sales Revenue")
+                        )
+
+    fig.add_trace(
+        go.Pie(values = temp_df['Quantity'], labels = temp_df['Day of Week'],
+        name = 'Quantity'),
+        row=1, col=1
+    )
+    fig.add_trace(
+        go.Pie(values = temp_df['Sales Revenue'], labels = temp_df['Day of Week'],
+        name = 'Sales Revenue'),
+        row=1, col=2
+    )
+    fig.update_layout(title_text="Percentage pie charts for Day of the Week Sales Revanue and Quantity")
+
+    #fig.show(renderer='png', height=700, width=1200)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+    st.markdown("The above pie charts shows the daily trend of sales revenue and quantity of products ordered.")
 
 
 ###############################
 
 
+col1, col2, col3= st.columns((.5,1,.5))
+with col1:
+    pass
+
+with col2:
+    temp_df = group_Quantity_and_SalesRevenue(df,'Time of Day')
+    fig = make_subplots(rows=1, cols=2,
+                        specs=[[{"type": "pie"}, {"type": "pie"}]], 
+                        subplot_titles=("Quantity", "Sales Revenue")
+                        )
+
+    fig.add_trace(
+        go.Pie(values = temp_df['Quantity'], labels = temp_df['Time of Day'],
+        name = 'Quantity'),
+        row=1, col=1
+    )
+    fig.add_trace(
+        go.Pie(values = temp_df['Sales Revenue'], labels = temp_df['Time of Day'],
+        name = 'Sales Revenue'),
+        row=1, col=2
+    )
+    fig.update_layout(title_text="Percentage pie charts for Time of Day Sales Revanue and Quantity")
+
+    st.plotly_chart(fig)
+    st.markdown("The above piecharts shows the breakdown of Quantity of orders(left) and Sales revenue(right) by time of the day.  More than 99% of the orders were placed during mornings and afternoon.")
+
+with col3:
+    pass
+
+###############################
+
+col1, col2, col3= st.columns((1,.1,1))
+with col1:
+    #we can also look at the volume of Invoice Numbers hourly data 
+    Hourly_Sales = (df.groupby('Hour').sum()["Quantity"]).reset_index()
+    fig = px.bar(Hourly_Sales, x='Hour', y='Quantity', title='Hourly Volume of quantity sold')
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show(height=700, width=1000)
+    st.plotly_chart(fig)
+
+with col2:
+    pass
+
+with col3:
+    #we can also look at the volume quantity sold hourly data 
+    Hourly_Sales = (df.groupby('Hour').count()["InvoiceNo"]).reset_index()
+    fig = px.bar(Hourly_Sales, x='Hour', y='InvoiceNo', title='Hourly sale using the Invoice Numbers')
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show(height=700, width=1000)
+    st.plotly_chart(fig)
+
+###############################
+
+st.markdown("##### ***Customers:***")
+
+col1, col2, col3= st.columns((1,.1,1))
+with col1:
+    data = df.groupby("CustomerID")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(11)
+    fig = px.bar(data, x='CustomerID', y='InvoiceNo', title='Graph of top ten customer with respect to the invoice number')
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show(height=700, width=1000)
+    st.plotly_chart(fig)
+
+with col2:
+    pass
+
+with col3:
+    temp_df = df[df["CustomerID"] != "Guest Customer"]
+    data = temp_df.groupby("CustomerID")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(11)
+    fig = px.bar(data, x='CustomerID', y='InvoiceNo', title='Graph of top ten customer with respect to the invoice number without the Guest Customer')
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show(height=700, width=1000)
+    st.plotly_chart(fig)
 
 
+#################################################
+
+
+temp_df = group_Quantity_and_SalesRevenue(df, 'Description')
+Quantity_tempA = temp_df.sort_values(ascending=False, by = "Quantity").reset_index(drop=True)
+Sales_Revenue_tempA = temp_df.sort_values(ascending=False, by = "Sales Revenue").reset_index(drop=True)
+
+Quantity_tempA.drop('Sales Revenue', axis=1, inplace=True)
+Sales_Revenue_tempA.drop('Quantity', axis=1, inplace=True)
+
+
+colspace, col1, col2, col3= st.columns((.45,1,.01,1))
+with col1:
+    qchoice = st.radio("Choose Either Top or Bottom of Product Description by Quantity", ("Top 10", "Bottom 10"))
+    qchoice_dict = {"Top 10":Quantity_tempA.head(10), "Bottom 10": Quantity_tempA.tail(10)}
+    st.markdown(f"{qchoice} Description by Quantity")
+    st.dataframe(qchoice_dict.get(qchoice))
+
+with col3:
+    schoice = st.radio("Choose Either Top or Bottom of Product Description by Sales Revenue", ("Top 10", "Bottom 10"))
+    schoice_dict = {"Top 10":Sales_Revenue_tempA.head(10), "Bottom 10": Sales_Revenue_tempA.tail(10)}
+    st.markdown(f"{schoice} Description by Sales Revenue")
+    st.dataframe(schoice_dict.get(schoice))
+
+
+##################################################
+
+col1, col2, col3= st.columns((.5,1,.5))
+with col1:
+    pass
+
+with col2:
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
+                    subplot_titles=(f"{qchoice} Products by Quantity", f"{schoice} Products by Sales Revenue")
+                            )
+
+    fig.add_trace(go.Bar(x=qchoice_dict.get(qchoice)['Description'], y=qchoice_dict.get(qchoice)['Quantity'],name = f"{qchoice}"),1, 1)
+
+    fig.add_trace(go.Bar(x=schoice_dict.get(schoice)['Description'], y=schoice_dict.get(schoice)['Sales Revenue'],name = f"{schoice}"),1, 2)
+    fig.update_layout(height=600)
+    fig.update_layout(showlegend=False, title_text="Product Description by Quantity and Sales Revenue")
+    #fig.show(renderer='png', height=700, width=1200)
+    #fig.show(height=700, width=1000)
+    st.plotly_chart(fig)
+
+with col3:
+    pass
+
+#####################################################
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################################
 
 st.markdown("----")
 
