@@ -1,3 +1,4 @@
+from pyparsing import col
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -166,21 +167,8 @@ with col3:
 st.success("If you want to take a look at how the data was cleaned, you "
             "can go check out the jupyter notebook of this project at: "
             "https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/MBA_Online-Retail_Data.ipynb")
-st.markdown("---")
 
-
-
-st.markdown(" <h3 style='text-align: center;'>Exploratory Data Analysis <i>(EDA)</i>:</h3>", unsafe_allow_html=True)
-col1, col2, col3= st.columns((.1,1,.1))
-with col1:
-    pass
-with col2:
-    """
-    * Exploratory data analysis is an approach/practice of analyzing data sets to summarize their main characteristics, often using statistical graphics and other ***data visualization***. It is a critical process of performing initial ***investigations to discover*** patterns, detect outliers and anomalies, and gain some new, hidden, insights into the data.
-    * Investigating questions like the total volume of purchases per month, week, day of the week, time of the day right to the hour. We will look at customers more later when we get into the ***Recency, Frequency and Monetary Analysis (RFM)*** in the Customer Segmentation section of the project.
-    """
-with col3:
-    pass
+######################functions############################
 
 @st.cache(allow_output_mutation=True)
 def group_Quantity_and_SalesRevenue(df,string):
@@ -207,9 +195,145 @@ def wordcloud_of_Description(df, title):
     plt.title(title)
     plt.show()
 
+country_list = ["All"] + list(dict(df['Country'].value_counts()).keys())
+@st.cache(allow_output_mutation=True)
+def choose_country(country = "all", data = df):
+  """
+  This fuction takes in a country name and filters the data frame for just country
+  if the there is no country inputed the fuction return the un filtered dataframe
+  """
+  if country == "all":
+    return data
+  else:
+    temp_df = data[data["Country"] == country]
+    temp_df.reset_index(drop= True, inplace= True)
 
+    return temp_df
+##################################################################################
+st.markdown("---")
+st.markdown(" <h3 style='text-align: center;'>Exploratory Data Analysis <i>(EDA)</i>:</h3>", unsafe_allow_html=True)
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """
+    * Exploratory data analysis is an approach/practice of analyzing data sets to summarize their main characteristics, often using statistical graphics and other ***data visualization***. It is a critical process of performing initial ***investigations to discover*** patterns, detect outliers and anomalies, and gain some new, hidden, insights into the data.
+    * Investigating questions like the total volume of purchases per month, week, day of the week, time of the day right to the hour. We will look at customers more later when we get into the ***Recency, Frequency and Monetary Analysis (RFM)*** in the Customer Segmentation section of the project.
+    """
+with col3:
+    pass
+############################################
+col1, col2, col3= st.columns((1,.1,1))
+
+with col1:
+    Country_Data = df.groupby("Country")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(10)
+    fig = px.bar(Country_Data, x= "InvoiceNo", y='Country', title= "Top 10 Number of orders per country with the UK")
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+    st.markdown("UK has more number of orders witk 16k Invoice numbers")
+
+with col2:
+    pass
+
+with col3:
+    Country_Data = df[df['Country'] != "United Kingdom"].groupby("Country")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(10)
+    fig = px.bar(Country_Data, x= "InvoiceNo", y='Country', title= "Top 10 Number of orders per country without the UK")
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+########################################################
+
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """
+    The above charts show that the UK by far has more invoices, just as suspected, with invoices surpassing 15K. Germany in in second place, with approximately 30 time less invoices. The retail store management can start possing question of why this is the case, especially when this is a Online retail store. Question like, what is the traffic like to the store web page, or should they start thinking of ***Search Engine Optimization (SEO)***, which is the process of improving the quality and quantity of website traffic to a website or a web page from search engines. Many other questions can be raised from the 2 charts above.
+
+    Below, we can take a look at how the countries fare up with regards to the ***Quantity sold*** and ***Sales Revenue***.The first plot is going to be for Quantity sold and the second will be for Sales Revenue both for the whole year of 2011.
+    """
+with col3:
+    pass
+
+####################
+col1, col2, col3= st.columns((1,.1,1))
+with col1:
+    #choice = st.radio("", ("Top 10", "Bottom 10"))
+    temp_df = group_Quantity_and_SalesRevenue(df,'Country')
+    fig = px.bar(temp_df, x= "Quantity", y='Country', title= "Quantity of orders per country with the UK")
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+
+with col2:
+    pass
+
+with col3:
+
+    temp_df = group_Quantity_and_SalesRevenue(df,'Country')
+    fig = px.bar(temp_df[temp_df['Country'] != "United Kingdom"], x= "Quantity", y='Country', title= "Quantity of orders per country without the UK")
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+
+
+####################
+
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """
+    Just as expected, the UK has high volumes of Quantitly sold and the below charts should show that the UK has high sales as well. However, unlike the number of invoices, the Netherlands has the second highest volume of Quantity sold at approximately 200K. 
+    """
+with col3:
+    pass
+
+####################
+col1, col2, col3= st.columns((1,.1,1))
+with col1:
+    #choice = st.radio("", ("Top 10", "Bottom 10"))
+    temp_df = group_Quantity_and_SalesRevenue(df,'Country')
+    fig = px.bar(temp_df, x= "Sales Revenue", y='Country', title= "Sales Revenue of orders per country with the UK")
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+
+with col2:
+    pass
+
+with col3:
+    temp_df = group_Quantity_and_SalesRevenue(df,'Country')
+    fig = px.bar(temp_df[temp_df['Country'] != "United Kingdom"], x= "Sales Revenue", y='Country', title= "Sales Revenue of orders per country without the UK")
+    #fig.show(renderer='png', height=700, width=1000)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+
+####################
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """
+    The sales revenue of Netherlands and Germany is quite close. It would be interesting to see this broken down by time periods: 'Month', 'Week', 'Day of the Week', 'Time of Day' ,or 'Hour'.
+    """
+with col3:
+    pass
+
+####################
+#here we ask the user to select a country to  look at
+col1, col2, col3= st.columns((3))
+with col1:
+    option = st.selectbox(
+        'Please Choose a country to Analyze',
+        country_list)
+    if option == "All":
+        st.markdown("We will at data from All the countries")
+    else:
+        st.markdown(f"We will be looking at data from {option}")
 st.markdown("----")
-st.markdown(" <h3 style='text-align: center;'>Market Basket Analysis <i>MBA</i>:</h3>", unsafe_allow_html=True)
+st.markdown(" <h3 style='text-align: center;'>Market Basket Analysis <i>(MBA)</i>:</h3>", unsafe_allow_html=True)
 r"""
 **What is Market Basket Analysis?:**
 
