@@ -86,8 +86,7 @@ st.markdown("***Methodology:*** Data Mining, Analysis and Visualization of Retai
 > * RFM (recency, frequency, monetary) Analysis
 3. Product Recomendation (people who bought this also bought)
 """
-
+st.markdown("In addition,")
 """
-In addition,\
 We create a `Streamlit` interactive data visualization tool that allows users interact with the data and analytics.
 """
