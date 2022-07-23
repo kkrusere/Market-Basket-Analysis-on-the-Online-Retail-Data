@@ -3,8 +3,19 @@ import pandas as pd
 import numpy as np
 
 import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+import seaborn as sns
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+
+import calendar
+import datetime as dt
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans
 
 #lets import our data from the AWS RDS MySQL DataBase
 #db info
@@ -44,8 +55,74 @@ with col2:
 with col3:
     st.write("")
 
-st.markdown("### ***Project Contributors:***")
-st.markdown("Kuzi Rusere")
+col1, col2, = st.columns((1,1))
+
+with col1:
+   
+    st.markdown("### ***Project Contributors:***")
+    st.markdown("Kuzi Rusere")
+
+    st.markdown("### **Project Introduction**")
+    st.markdown("***Business Proposition:*** This project aims to provide a Retail "
+                "Business with a strategy that helps improve their product sales, "
+                "inventory management, and customer retention, which in turn would "
+                "improve the profitability of the business. In the retail environment, "
+                "profitability and the `bottom line` is at the focal point of any "
+                "organization or business in this space. From product sales, through "
+                "inventory management to customer acquisition and retention all this one "
+                "way or the other affects the business' profits and net revenue. Transaction "
+                "data from the POS (point of sale) systems for a retail business is a treasure "
+                "trove of insights that can be used to better understand the products, customer "
+                "purchase behavior, and sales together with the relationship and patterns in "
+                "between. This project explores the different ways of deriving these insights, "
+                "patterns, and relationships, and how these can be used in designing, developing, "
+                "and implementing a strategy to improve the retail business' profits, revenue, "
+                "and overall operations")
+    st.markdown("***Methodology:*** Data Mining, Analysis and Visualization of Retail "
+                "Sales Data.")
+    """
+    1. Market Basket Analysis (MBA), which aims to find relationship and establishing pattens within the retail sales data. <br>
+    2. Customer Segmentation 
+    > * RFM (recency, frequency, monetary) Analysis
+    3. Product Recomendation (people who bought this also bought)
+    """
+    st.markdown("In addition, we created this `Streamlit` interactive data visualization "
+                "tool that allows users interact with the data and analytics.")
+
+with col2:
+    st.markdown("### **Data Collection**")
+
+    """
+
+    **General Information About the Data** <br>
+    This is a transnational data set which contains all the transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and registered non-store online retail. The company mainly sells unique all-occasion gifts. Many customers of the company are wholesalers. <br>
+
+    **Information about the Attributes/Columns in the Dataset** <br>
+
+    ***InvoiceNo:*** Invoice number. Nominal, a 6-digit integral number uniquely assigned to each transaction. If this code starts with letter 'c', it indicates a cancellation. <br>
+
+    ***StockCode:*** Product (item) code. Nominal, a 5-digit integral number uniquely assigned to each distinct product. <br>
+
+    ***Description:*** Product (item) name. Nominal. <br>
+
+    ***Quantity:*** The quantities of each product (item) per transaction. Numeric.<br>
+
+    ***InvoiceDate:*** Invice Date and time. Numeric, the day and time when each transaction was generated. <br>
+
+    ***UnitPrice:*** Unit price. Numeric, Product price per unit in sterling.<br>
+
+    ***CustomerID:*** Customer number. Nominal, a 5-digit integral number uniquely assigned to each customer. <br>
+
+    ***Country:*** Country name. Nominal, the name of the country where each customer resides. <br>
+
+
+    """
+
+
+
+
+
+
 
 @st.cache(allow_output_mutation=True, ttl= 120.0)
 def load_data():
@@ -60,31 +137,5 @@ def load_data():
     except Exception as e:
         pass
 
-    
+
 df = load_data()
-st.markdown("### **Project Introduction**")
-st.markdown("***Business Proposition:*** This project aims to provide a Retail "
-            "Business with a strategy that helps improve their product sales, "
-            "inventory management, and customer retention, which in turn would "
-            "improve the profitability of the business. In the retail environment, "
-            "profitability and the `bottom line` is at the focal point of any "
-            "organization or business in this space. From product sales, through "
-            "inventory management to customer acquisition and retention all this one "
-            "way or the other affects the business' profits and net revenue. Transaction "
-            "data from the POS (point of sale) systems for a retail business is a treasure "
-            "trove of insights that can be used to better understand the products, customer "
-            "purchase behavior, and sales together with the relationship and patterns in "
-            "between. This project explores the different ways of deriving these insights, "
-            "patterns, and relationships, and how these can be used in designing, developing, "
-            "and implementing a strategy to improve the retail business' profits, revenue, "
-            "and overall operations")
-st.markdown("***Methodology:*** Data Mining, Analysis and Visualization of Retail "
-            "Sales Data.")
-"""
-1. Market Basket Analysis (MBA), which aims to find relationship and establishing pattens within the retail sales data. <br>
-2. Customer Segmentation 
-> * RFM (recency, frequency, monetary) Analysis
-3. Product Recomendation (people who bought this also bought)
-"""
-st.markdown("In addition, we created this `Streamlit` interactive data visualization "
-            "tool that allows users interact with the data and analytics.")
