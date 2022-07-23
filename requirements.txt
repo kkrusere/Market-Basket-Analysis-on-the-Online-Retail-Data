@@ -3,9 +3,9 @@ streamlit
 numpy
 plotly
 matplotlib
-wordcloud
+wordcloud==1.8.2.2
 sqlalchemy
 pymysql
 greenlet
-mlxtend
+mlxtend==0.20.0
 seaborn
