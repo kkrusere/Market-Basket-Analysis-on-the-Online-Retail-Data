@@ -752,7 +752,7 @@ with col1:
     pass
 with col2:
     """Frequent Itemsets"""
-    st.dataframe(frequent_itemsets.head())
+    #st.dataframe(frequent_itemsets.head())
 with col3:
     pass
 
