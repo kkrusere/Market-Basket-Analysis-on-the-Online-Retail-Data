@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
 from wordcloud import WordCloud
 
 import calendar
@@ -181,7 +183,7 @@ def group_Quantity_and_SalesRevenue(df,string):
 
     return df
 
-@st.cache(allow_output_mutation=True)
+#@st.cache(allow_output_mutation=True)
 def wordcloud_of_Description(df, title):
     """
     This fuction creates a word cloud
@@ -189,11 +191,12 @@ def wordcloud_of_Description(df, title):
     """
     plt.rcParams["figure.figsize"] = (20,20)
     tuples = [tuple(x) for x in df.values]
-    wordcloud = WordCloud().generate_from_frequencies(dict(tuples))
+    wordcloud = WordCloud(max_font_size=100,  background_color="white").generate_from_frequencies(dict(tuples))
     plt.imshow(wordcloud)
     plt.axis('off')
-    plt.title(title)
+    plt.title(title, fontsize = 27)
     plt.show()
+
 
 country_list = ["All"] + list(dict(df['Country'].value_counts()).keys())
 @st.cache(allow_output_mutation=True)
@@ -317,6 +320,8 @@ with col1:
 with col2:
     """
     The sales revenue of Netherlands and Germany is quite close. It would be interesting to see this broken down by time periods: 'Month', 'Week', 'Day of the Week', 'Time of Day' ,or 'Hour'.
+    
+    We now going to look at the products, which ones have high Quantity sold, or which product has high Sales Revenue. But first the below chart is a wordcloud of the product descriptions. A wordcloud is a visual representations of words that give greater prominence to words that appear more frequently, in this case the frequency is the 'Quantity'
     """
 with col3:
     pass
@@ -332,7 +337,123 @@ with col1:
         st.markdown("We will at data from All the countries")
     else:
         st.markdown(f"We will be looking at data from {option}")
+
+
+st.markdown("###### **We can create a word cloud of the Product Descriptions per Quantity & Product Descriptions per Sales Revenue**")
+
+col1, col2, col3= st.columns((1,.1,1))
+with col1:
+    temp_df = pd.DataFrame(df.groupby('Description')['Quantity'].sum()).reset_index()
+    title = "Product Description per Quantity"
+    wordcloud_of_Description(temp_df, title)
+    st.pyplot()
+
+with col2:
+    pass
+
+with col3:
+    temp_df = pd.DataFrame(df.groupby('Description')['Sales Revenue'].sum()).reset_index()
+    title = "Product Description per Sales Revenue"
+    wordcloud_of_Description(temp_df, title)
+    st.pyplot()
+
+###############################################
+
+st.markdown("##### **Monthly Stats:**") 
+"""
+Below are the monthly analysis of the Sales and the Quantity of iterms sold
+"""
+
+col1, col2, col3= st.columns((1,.3,1))
+with col1:
+    temp_df = group_Quantity_and_SalesRevenue(df,'Month')
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
+                    subplot_titles=("Quantity", "Sales Revenue")
+                    )
+    fig.add_trace(go.Bar(x=temp_df['Month'], y=temp_df['Quantity'],name = 'Quantity'),1, 1)
+
+    fig.add_trace(go.Bar(x=temp_df['Month'], y=temp_df['Sales Revenue'],name = 'Sales Revenue'),1, 2)
+
+    fig.update_layout(showlegend=False, title_text="Monthly Sales Revanue and Quantity")
+    #fig.show(renderer='png', height=700, width=1200)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+    """
+    The above graphs show the monthly trend of Quantity of products ordered(left) and Sales Revenue(right). Both the measures were the highest in Novemeber folllowed by October and Septemeber.
+    """
+
+with col2:
+    pass
+
+with col3:
+    fig = make_subplots(rows=1, cols=2,
+                    specs=[[{"type": "pie"}, {"type": "pie"}]], 
+                    subplot_titles=("Quantity per Month", "Sales Revenue per Month")
+                    )
+
+    fig.add_trace(
+        go.Pie(values = temp_df['Quantity'], labels = temp_df['Month'],
+        name = 'Quantity'),
+        row=1, col=1
+    )
+    fig.add_trace(
+        go.Pie(values = temp_df['Sales Revenue'], labels = temp_df['Month'],
+        name = 'Sales Revenue'),
+        row=1, col=2
+    )
+    fig.update_layout(title_text="Percentage pie charts for Monthly Sales Revanue and Quantity")
+
+    #fig.show(renderer='png', height=700, width=1200)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+    """
+    The above pie charts depicts the quantity of products ordered and sales revenue per month with highest in the month of November with 14.4% and lowest in the month of february with 5.43%.
+    """
+
+##############################
+st.markdown("##### **Weekly Stats:**")
+"""
+The below are the weekly analysis of the Sales and the Quantity of iterms sold
+"""
+ccol1, col2, col3= st.columns((.5,1,.5))
+with col1:
+    pass
+with col2:
+    #choice = st.radio("", ("Top 10", "Bottom 10"))
+    temp_df = group_Quantity_and_SalesRevenue(df,'Week of the Year')
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
+                    subplot_titles=("Quantity", "Sales Revenue")
+                            )
+
+    fig.add_trace(go.Bar(x=temp_df['Week of the Year'], y=temp_df['Quantity'],name = 'Quantity'),1, 1)
+
+    fig.add_trace(go.Bar(x=temp_df['Week of the Year'], y=temp_df['Sales Revenue'],name = 'Sales Revenue'),1, 2)
+
+    fig.update_layout(showlegend=False, title_text="Weekly Sales Revanue and Quantity")
+    #fig.show(renderer='png', height=700, width=1200)
+    #fig.show( height=700, width=1000)
+    st.plotly_chart(fig)
+
+    """
+    The above graphs shows the weekly trend of sales revenue and the quantity of products ordered. The highest peak was on the 49th week in the month of November. As it's a holiday season, there was a high demand for the decoration items. As the quantity increases sales revenue too increases.
+    """
+
+with col3:
+    pass
+
+
+
+###############################
+
+
+
+
+
 st.markdown("----")
+
+
+
+#########################################################################
 st.markdown(" <h3 style='text-align: center;'>Market Basket Analysis <i>(MBA)</i>:</h3>", unsafe_allow_html=True)
 r"""
 **What is Market Basket Analysis?:**
