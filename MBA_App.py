@@ -690,7 +690,19 @@ Lift value near 1 indicates ${X}$ and ${Y}$ almost often appear together as expe
 st.markdown("----")
 st.markdown(" <h3 style='text-align: center;'>Customer Segmentation:</h3>", unsafe_allow_html=True)
 """
+Customer segmentation is the process of dividing customers into groups based on common characteristics so companies can market to each group effectively and appropriately.
 * RFM (recency, frequency, monetary) Analysis
+"""
+"""
+**RFM (recency, frequency, monetary) Analysis**
+
+The “RFM” in RFM analysis stands for recency, frequency and monetary value. RFM analysis is a way to use data based on existing customer behavior to predict how a new customer is likely to act in the future.
+
+1. How recently a customer has transacted with a brand
+2. How frequently they’ve engaged with a brand
+3. How much money they’ve spent on a brand’s products and services
+
+RFM analysis enables marketers to increase revenue by targeting specific groups of existing customers (i.e., customer segmentation) with messages and offers that are more likely to be relevant based on data about a particular set of behaviors.
 """
 
 st.markdown("----")
