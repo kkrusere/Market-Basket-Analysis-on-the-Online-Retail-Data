@@ -8,5 +8,4 @@ sqlalchemy
 pymysql
 greenlet
 mlxtend
-pyarmviz
-networkx==2.7.1 
+seaborn
