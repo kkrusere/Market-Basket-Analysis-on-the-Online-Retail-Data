@@ -341,7 +341,7 @@ with col1:
 
 st.markdown("###### **We can create a word cloud of the Product Descriptions per Quantity & Product Descriptions per Sales Revenue**")
 
-col1, col2, col3= st.columns((1,.1,1))
+col1, col2, col3= st.columns((1,.3,1))
 with col1:
     temp_df = pd.DataFrame(df.groupby('Description')['Quantity'].sum()).reset_index()
     title = "Product Description per Quantity"
