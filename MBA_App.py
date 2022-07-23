@@ -20,6 +20,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 from sklearn.cluster import KMeans
 
+
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+
 #lets import our data from the AWS RDS MySQL DataBase
 #db info
 from sqlalchemy import create_engine
@@ -686,6 +690,87 @@ The lift of the rule ${(X \Rightarrow Y)}$  is the confidence of the rule divide
 Lift value near 1 indicates ${X}$ and ${Y}$ almost often appear together as expected, greater than 1 means they appear together more than expected and less than 1 means they appear less than expected.Greater lift values indicate stronger association
 
 """
+
+"""
+
+
+
+"""
+
+"""
+##### ***Now the Implementation of the MBA***
+"""
+mba_country_list = [
+                    'United Kingdom',
+                    'Germany',
+                    'France',
+                    'EIRE',
+                    'Spain',
+                    'Netherlands',
+                    'Switzerland',
+                    'Belgium',
+                    'Portugal',
+                    'Australia']
+
+col1, col2, col3= st.columns((3))
+with col1:
+    option = st.selectbox(
+        'Please Choose a country for the Market Basket Analysis',
+        mba_country_list)
+    if option == "All":
+        st.markdown("We will at data from All the countries")
+    else:
+        st.markdown(f"We will be looking at data from {option}")
+
+
+MBA_df = choose_country(country=option)
+
+"""
+We are going to use the Apriori Algorithm for the association rule mining/analysis. Apriori is an algorithm for frequent item set mining and association rule learning over relational dataset. It proceeds by identifying the frequent individual items in the dataset and extending them to larger and larger item sets as long as those item sets appear sufficiently often in the dataset. The frequent item sets determined by Apriori can be used to determine association rules which highlight general trends, pattern, and relationships in the dataset.
+"""
+#we are going to rearrage the dataframe having the 'InvoiceNo' column the index, so that each row contains all the items purchased under the same invoice
+basket = (MBA_df.groupby(['InvoiceNo', 'Description'])['Quantity'].sum().unstack().reset_index().fillna(0).set_index('InvoiceNo'))
+st.markdown("Below is the one-hot encoded basket with the InvoiceNo #s being the index")
+
+def encoder(x):
+  if(x <= 0):
+    return 0
+  if(x >= 1):
+    return 1
+
+#now we encode
+basket = basket.applymap(encoder)
+
+st.dataframe(basket.head())
+
+st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
+
+frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
+
+col1, col2, col3= st.columns((.1,1,.1))
+with col1:
+    pass
+with col2:
+    """Frequent Itemsets"""
+    st.dataframe(frequent_itemsets.head())
+with col3:
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 st.markdown("----")
 st.markdown(" <h3 style='text-align: center;'>Customer Segmentation:</h3>", unsafe_allow_html=True)
