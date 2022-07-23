@@ -183,7 +183,21 @@ def group_Quantity_and_SalesRevenue(df,string):
 
     return df
 
-#@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
+def choose_country(country = "All", data = df):
+  """
+  This fuction takes in a country name and filters the data frame for just country
+  if the there is no country inputed the fuction return the un filtered dataframe
+  """
+  if country == "All":
+    return data
+  else:
+    temp_df = data[data["Country"] == country]
+    temp_df.reset_index(drop= True, inplace= True)
+
+    return temp_df
+
+
 def wordcloud_of_Description(df, title):
     """
     This fuction creates a word cloud
@@ -200,12 +214,12 @@ def wordcloud_of_Description(df, title):
 
 country_list = ["All"] + list(dict(df['Country'].value_counts()).keys())
 @st.cache(allow_output_mutation=True)
-def choose_country(country = "all", data = df):
+def choose_country(country, data = df):
   """
   This fuction takes in a country name and filters the data frame for just country
   if the there is no country inputed the fuction return the un filtered dataframe
   """
-  if country == "all":
+  if country == "All":
     return data
   else:
     temp_df = data[data["Country"] == country]
@@ -327,7 +341,7 @@ with col3:
     pass
 
 ####################
-#here we ask the user to select a country to  look at
+
 col1, col2, col3= st.columns((3))
 with col1:
     option = st.selectbox(
@@ -339,11 +353,14 @@ with col1:
         st.markdown(f"We will be looking at data from {option}")
 
 
+dataframe = choose_country(country=option)
+
+
 st.markdown("###### **We can create a word cloud of the Product Descriptions per Quantity & Product Descriptions per Sales Revenue**")
 
 col1, col2, col3= st.columns((1,.3,1))
 with col1:
-    temp_df = pd.DataFrame(df.groupby('Description')['Quantity'].sum()).reset_index()
+    temp_df = pd.DataFrame(dataframe.groupby('Description')['Quantity'].sum()).reset_index()
     title = "Product Description per Quantity"
     wordcloud_of_Description(temp_df, title)
     st.pyplot()
@@ -352,7 +369,7 @@ with col2:
     pass
 
 with col3:
-    temp_df = pd.DataFrame(df.groupby('Description')['Sales Revenue'].sum()).reset_index()
+    temp_df = pd.DataFrame(dataframe.groupby('Description')['Sales Revenue'].sum()).reset_index()
     title = "Product Description per Sales Revenue"
     wordcloud_of_Description(temp_df, title)
     st.pyplot()
@@ -366,7 +383,7 @@ Below are the monthly analysis of the Sales and the Quantity of iterms sold
 
 col1, col2, col3= st.columns((1,.3,1))
 with col1:
-    temp_df = group_Quantity_and_SalesRevenue(df,'Month')
+    temp_df = group_Quantity_and_SalesRevenue(dataframe,'Month')
     fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
                     subplot_titles=("Quantity", "Sales Revenue")
                     )
@@ -379,7 +396,7 @@ with col1:
     #fig.show( height=700, width=1000)
     st.plotly_chart(fig)
     """
-    The above graphs show the monthly trend of Quantity of products ordered(left) and Sales Revenue(right). Both the measures were the highest in Novemeber folllowed by October and Septemeber.
+    The above graphs show the monthly trend of Quantity of products ordered(left) and Sales Revenue(right).
     """
 
 with col2:
@@ -407,7 +424,7 @@ with col3:
     #fig.show( height=700, width=1000)
     st.plotly_chart(fig)
     """
-    The above pie charts depicts the quantity of products ordered and sales revenue per month with highest in the month of November with 14.4% and lowest in the month of february with 5.43%.
+    The above pie charts depicts the quantity of products ordered and sales revenue per month. 
     """
 
 ##############################
@@ -420,7 +437,7 @@ with col1:
     pass
 with col2:
     
-    temp_df = group_Quantity_and_SalesRevenue(df,'Week of the Year')
+    temp_df = group_Quantity_and_SalesRevenue(dataframe,'Week of the Year')
     fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
                     subplot_titles=("Quantity", "Sales Revenue")
                             )
@@ -435,7 +452,7 @@ with col2:
     st.plotly_chart(fig)
 
     """
-    The above graphs shows the weekly trend of sales revenue and the quantity of products ordered. The highest peak was on the 49th week in the month of November. As it's a holiday season, there was a high demand for the decoration items. As the quantity increases sales revenue too increases.
+    The above graphs shows the weekly trend of sales revenue and the quantity of products ordered. 
     """
 
 with col3:
@@ -448,7 +465,7 @@ The below are the daily analysis of the Sales and the Quantity of iterms sold
 """
 col1, col2, col3= st.columns((1,.3,1))
 with col1:
-    temp_df = group_Quantity_and_SalesRevenue(df,'Day of Week')
+    temp_df = group_Quantity_and_SalesRevenue(dataframe,'Day of Week')
     fig = make_subplots(rows=1, cols=2, shared_yaxes=False,
                     subplot_titles=("Quantity", "Sales Revenue")
                             )
@@ -462,7 +479,7 @@ with col1:
     #fig.show( height=700, width=1000)
     st.plotly_chart(fig)
 
-    st.markdown("The above graphs depict the daily trend of Sales revenue and quantity. Thursday was observed to generate the highest Quantity of products and Sales Revenue.")
+    st.markdown("The above graphs depict the daily trend of Sales revenue and quantity.")
 
 with col2:
     pass
@@ -499,7 +516,7 @@ with col1:
     pass
 
 with col2:
-    temp_df = group_Quantity_and_SalesRevenue(df,'Time of Day')
+    temp_df = group_Quantity_and_SalesRevenue(dataframe,'Time of Day')
     fig = make_subplots(rows=1, cols=2,
                         specs=[[{"type": "pie"}, {"type": "pie"}]], 
                         subplot_titles=("Quantity", "Sales Revenue")
@@ -518,7 +535,7 @@ with col2:
     fig.update_layout(title_text="Percentage pie charts for Time of Day Sales Revanue and Quantity")
 
     st.plotly_chart(fig)
-    st.markdown("The above piecharts shows the breakdown of Quantity of orders(left) and Sales revenue(right) by time of the day.  More than 99% of the orders were placed during mornings and afternoon.")
+    st.markdown("The above piecharts shows the breakdown of Quantity of orders(left) and Sales revenue(right) by time of the day.")
 
 with col3:
     pass
@@ -528,7 +545,7 @@ with col3:
 col1, col2, col3= st.columns((1,.1,1))
 with col1:
     #we can also look at the volume of Invoice Numbers hourly data 
-    Hourly_Sales = (df.groupby('Hour').sum()["Quantity"]).reset_index()
+    Hourly_Sales = (dataframe.groupby('Hour').sum()["Quantity"]).reset_index()
     fig = px.bar(Hourly_Sales, x='Hour', y='Quantity', title='Hourly Volume of quantity sold')
     #fig.show(renderer='png', height=700, width=1000)
     #fig.show(height=700, width=1000)
@@ -539,7 +556,7 @@ with col2:
 
 with col3:
     #we can also look at the volume quantity sold hourly data 
-    Hourly_Sales = (df.groupby('Hour').count()["InvoiceNo"]).reset_index()
+    Hourly_Sales = (dataframe.groupby('Hour').count()["InvoiceNo"]).reset_index()
     fig = px.bar(Hourly_Sales, x='Hour', y='InvoiceNo', title='Hourly sale using the Invoice Numbers')
     #fig.show(renderer='png', height=700, width=1000)
     #fig.show(height=700, width=1000)
@@ -551,7 +568,7 @@ st.markdown("##### ***Customers:***")
 
 col1, col2, col3= st.columns((1,.1,1))
 with col1:
-    data = df.groupby("CustomerID")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(11)
+    data = dataframe.groupby("CustomerID")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(11)
     fig = px.bar(data, x='CustomerID', y='InvoiceNo', title='Graph of top ten customer with respect to the invoice number')
     #fig.show(renderer='png', height=700, width=1000)
     #fig.show(height=700, width=1000)
@@ -561,7 +578,7 @@ with col2:
     pass
 
 with col3:
-    temp_df = df[df["CustomerID"] != "Guest Customer"]
+    temp_df = dataframe[dataframe["CustomerID"] != "Guest Customer"]
     data = temp_df.groupby("CustomerID")["InvoiceNo"].nunique().sort_values(ascending = False).reset_index().head(11)
     fig = px.bar(data, x='CustomerID', y='InvoiceNo', title='Graph of top ten customer with respect to the invoice number without the Guest Customer')
     #fig.show(renderer='png', height=700, width=1000)
@@ -572,7 +589,7 @@ with col3:
 #################################################
 
 
-temp_df = group_Quantity_and_SalesRevenue(df, 'Description')
+temp_df = group_Quantity_and_SalesRevenue(dataframe, 'Description')
 Quantity_tempA = temp_df.sort_values(ascending=False, by = "Quantity").reset_index(drop=True)
 Sales_Revenue_tempA = temp_df.sort_values(ascending=False, by = "Sales Revenue").reset_index(drop=True)
 
