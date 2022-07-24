@@ -749,17 +749,19 @@ with col2:
     st.success('Done!')
 
 
-    st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
-    with st.spinner("Generating the frequent itemsets..."):
-        frequent_itemsets = pd.DataFrame(apriori(basket, min_support=0.01, use_colnames=True))
-        # frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
-        # frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
+    st.markdown("The next step will be to generate the frequent itemsets that have a support of at "
+                "least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a "
+                "one-hot DataFrame. And then can look at the rules  of association using the "
+                "`MLxtend association_rules(), The function generates a DataFrame of association "
+                "rules including the metrics 'score', 'confidence', and 'lift'")
+    with st.spinner("Generating the Frequent Itemsets and Assosiation Rules..."):
+        rules = association_rules(apriori(basket, min_support=0.01, use_colnames=True), metric="lift", min_threshold=1)
+        
+
     st.success('Done!')
 
-
-
-    """Frequent Itemsets"""
-    #st.dataframe(frequent_itemsets.head())
+    """Assosiation Rules"""
+    st.dataframe(rules.head())
 with col3:
     pass
 
