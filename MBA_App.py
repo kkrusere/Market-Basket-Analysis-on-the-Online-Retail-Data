@@ -760,8 +760,8 @@ with col2:
                 "rules including the metrics 'score', 'confidence', and 'lift'")
     with st.spinner("Generating the Frequent Itemsets and Assosiation Rules..."):
         rules = association_rules(apriori(basket, min_support=0.01, use_colnames=True), metric="lift", min_threshold=1)
-        rules["antecedents"] = rules["antecedents"].apply(change_dtype_to_list,  axis=1)
-        rules["consequents"] = rules["consequents"].apply(change_dtype_to_list,  axis=1)
+        rules["antecedents"] = rules["antecedents"].apply(change_dtype_to_list)
+        rules["consequents"] = rules["consequents"].apply(change_dtype_to_list)
     st.success('Done!')
 
     """Assosiation Rules"""
