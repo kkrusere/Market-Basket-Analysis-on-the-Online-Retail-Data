@@ -760,6 +760,8 @@ with col2:
                 "rules including the metrics 'score', 'confidence', and 'lift'")
     with st.spinner("Generating the Frequent Itemsets and Assosiation Rules..."):
         rules = association_rules(apriori(basket, min_support=0.01, use_colnames=True), metric="lift", min_threshold=1)
+        # Sort values based on lift
+        rules = rules.sort_values("lift",ascending=False).reset_index(drop= True)
         rules["antecedents"] = rules["antecedents"].apply(change_dtype_to_list)
         rules["consequents"] = rules["consequents"].apply(change_dtype_to_list)
     st.success('Done!')
@@ -768,17 +770,6 @@ with col2:
     st.dataframe(rules.head())
 with col3:
     pass
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -802,6 +793,45 @@ The “RFM” in RFM analysis stands for recency, frequency and monetary value. 
 
 RFM analysis enables marketers to increase revenue by targeting specific groups of existing customers (i.e., customer segmentation) with messages and offers that are more likely to be relevant based on data about a particular set of behaviors.
 """
+
+rfm_country_list = [
+                    'United Kingdom',
+                    'Germany',
+                    'France',
+                    'EIRE',
+                    'Spain',
+                    'Netherlands',
+                    'Switzerland',
+                    'Belgium',
+                    'Portugal',
+                    'Australia']
+
+col1, col2, col3= st.columns((3))
+with col1:
+    option = st.selectbox(
+        'Please Choose a country for the Recency, Frequency, Monetary Analysis',
+        rfm_country_list)
+    if option == "All":
+        st.markdown("We will at data from All the countries")
+    else:
+        st.markdown(f"We will be looking at data from {option}")
+
+
+RFM_df = choose_country(country=option)
+
+#the first thing that we are going to need is the reference date 
+#in this case the day after the last recorded date in the dataset plus a day
+ref_date = RFM_df['InvoiceDate'].max() + dt.timedelta(days=1)
+
+
+
+
+
+
+
+
+
+
 
 st.markdown("----")
 st.markdown(" <h3 style='text-align: center;'>Product recomendation <i>(people who bought this also bought)</i>:</h3>", unsafe_allow_html=True)
