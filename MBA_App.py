@@ -738,13 +738,16 @@ def encoder(x):
   if(x >= 1):
     return 1
 
-#now we encode
-basket = basket.applymap(encoder)
+with st.spinner("One-Hot Encoding the basket..."):
+    #now we encode
+    basket = basket.applymap(encoder)
 
-st.dataframe(basket.head())
+    st.dataframe(basket.head())
+st.success('Done!')
+
 
 st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
-with st.spinner("Generating the frequent itemsets"):
+with st.spinner("Generating the frequent itemsets..."):
     frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
     frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
     frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
