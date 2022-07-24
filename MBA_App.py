@@ -737,27 +737,27 @@ def encoder(x):
     return 0
   if(x >= 1):
     return 1
-
-with st.spinner("One-Hot Encoding the basket..."):
-    #now we encode
-    basket = basket.applymap(encoder)
-
-    st.dataframe(basket.head())
-st.success('Done!')
-
-
-st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
-with st.spinner("Generating the frequent itemsets..."):
-    frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
-    # frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
-    # frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
-st.success('Done!')
-
-
 col1, col2, col3= st.columns((.1,1,.1))
 with col1:
     pass
 with col2:
+    with st.spinner("One-Hot Encoding the basket..."):
+        #now we encode
+        basket = basket.applymap(encoder)
+
+        st.dataframe(basket.head())
+    st.success('Done!')
+
+
+    st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
+    with st.spinner("Generating the frequent itemsets..."):
+        frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
+        # frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
+        # frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
+    st.success('Done!')
+
+
+
     """Frequent Itemsets"""
     #st.dataframe(frequent_itemsets.head())
 with col3:
