@@ -127,7 +127,7 @@ with col3:
 
 st.markdown("----")
 
-@st.cache(allow_output_mutation=True, ttl= 600)
+#@st.cache(allow_output_mutation=True, ttl= 600)
 def load_data():
     """
     This fuction loads data from the aws rds mysql table
