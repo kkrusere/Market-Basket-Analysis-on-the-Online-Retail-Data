@@ -732,6 +732,10 @@ We are going to use the Apriori Algorithm for the association rule mining/analys
 basket = (MBA_df.groupby(['InvoiceNo', 'Description'])['Quantity'].sum().unstack().reset_index().fillna(0).set_index('InvoiceNo'))
 st.markdown("Below is the one-hot encoded basket with the InvoiceNo #s being the index")
 
+def change_dtype_to_list(x):
+    x = list(x)
+    return x
+
 def encoder(x):
   if(x <= 0):
     return 0
@@ -756,8 +760,8 @@ with col2:
                 "rules including the metrics 'score', 'confidence', and 'lift'")
     with st.spinner("Generating the Frequent Itemsets and Assosiation Rules..."):
         rules = association_rules(apriori(basket, min_support=0.01, use_colnames=True), metric="lift", min_threshold=1)
-        
-
+        rules["antecedents"] = rules["antecedents"].apply(change_dtype_to_list,  axis=1)
+        rules["consequents"] = rules["consequents"].apply(change_dtype_to_list,  axis=1)
     st.success('Done!')
 
     """Assosiation Rules"""
