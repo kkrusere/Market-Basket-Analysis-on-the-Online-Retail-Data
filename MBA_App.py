@@ -749,8 +749,8 @@ st.success('Done!')
 st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
 with st.spinner("Generating the frequent itemsets..."):
     frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
-    frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
-    frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
+    # frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
+    # frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
 st.success('Done!')
 
 
@@ -759,7 +759,7 @@ with col1:
     pass
 with col2:
     """Frequent Itemsets"""
-    st.dataframe(frequent_itemsets.head())
+    #st.dataframe(frequent_itemsets.head())
 with col3:
     pass
 
