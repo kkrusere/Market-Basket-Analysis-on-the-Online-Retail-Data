@@ -14,3 +14,4 @@ scipy==1.8.1
 seaborn==0.11.2
 SQLAlchemy==1.4.25
 streamlit==1.11.0
+wordcloud
