@@ -803,3 +803,24 @@ with col2:
     """
 with col3:
     pass
+
+
+
+
+st.markdown("---")
+
+
+
+
+
+
+st.markdown("---")
+
+st.markdown("### ***Conclusion***")
+
+st.markdown("This was a very interesting project which covered a wide array"
+            " of topics that seem different but quite similar. For further "
+            "research or analysis, it would be interesting to do the market "
+            "basket analysis on the clusters that resulted (with the help of the"
+            " K-means clustering) from the recency, frequency, and monetary value "
+            "analysis and do market basket analysis on each of them")
