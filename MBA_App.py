@@ -127,7 +127,7 @@ with col3:
 
 st.markdown("----")
 
-#@st.cache(allow_output_mutation=True, ttl= 600)
+@st.cache(allow_output_mutation=True, ttl= 1200)
 def load_data():
     """
     This fuction loads data from the aws rds mysql table
@@ -751,7 +751,7 @@ with col2:
 
     st.markdown("The next step will be to generate the frequent itemsets that have a support of at least 10% using the MLxtend Apriori fuction which returns frequent itemsets from a one-hot DataFrame.")
     with st.spinner("Generating the frequent itemsets..."):
-        frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
+        frequent_itemsets = pd.DataFrame(apriori(basket, min_support=0.01, use_colnames=True))
         # frequent_itemsets.to_csv("frequent_itemsets.csv", index=False)
         # frequent_itemsets = pd.read_csv("frequent_itemsets.csv")
     st.success('Done!')
