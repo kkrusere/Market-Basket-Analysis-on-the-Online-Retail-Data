@@ -7,7 +7,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
-import seaborn as sns
+
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('agg')
