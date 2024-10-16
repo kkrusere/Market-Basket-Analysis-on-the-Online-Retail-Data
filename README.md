@@ -4,6 +4,7 @@ The "Market Basket Analysis on Online Retail Data" project aims to leverage adva
 
 <center><img src="https://github.com/kkrusere/Market-Basket-Analysis-on-the-Online-Retail-Data/blob/main/Assets/MBA.jpg?raw=1" width=600/></center>
 
+
 ***Project Contributors:*** Kuzi Rusere<br>
 
 **Introduction:**
